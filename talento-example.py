@@ -1,49 +1,67 @@
+import subprocess
+import sys
+
+# List of required packages
+required_packages = ["streamlit", "numpy", "pandas", "matplotlib", "scipy"]
+
+# Function to install missing packages
+def install_packages():
+    for package in required_packages:
+        try:
+            __import__(package)
+        except ImportError:
+            print(f"Installing {package}...")
+            subprocess.check_call([sys.executable, "-m", "pip", "install", package])
+
+# Install missing packages
+install_packages()
+
+# Now, import all packages after ensuring they are installed
 import streamlit as st
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 from scipy.stats import norm
 
-
-# Generar datos aleatorios
+# Generating random data
 np.random.seed(42)
 x = np.linspace(-10, 10, 300)
 y1 = np.sin(x) + np.random.normal(0, 0.2, len(x))
 y2 = np.cos(x) + np.random.normal(0, 0.2, len(x))
-y3 = np.tan(x) / 10 + np.random.normal(0, 0.1, len(x))  # Limitamos la tangente
+y3 = np.tan(x) / 10 + np.random.normal(0, 0.1, len(x))  # Limited tangent function
 y4 = norm.pdf(x, loc=0, scale=2) + np.random.normal(0, 0.02, len(x))
 y5 = np.exp(-x**2 / 20) + np.random.normal(0, 0.02, len(x))
 
-# Crear un DataFrame con los datos
+# Creating a DataFrame
 df = pd.DataFrame({
     'x': x,
-    'Seno con ruido': y1,
-    'Coseno con ruido': y2,
-    'Tangente ajustada': y3,
-    'Distribución Normal': y4,
-    'Función Gaussiana': y5
+    'Sine with noise': y1,
+    'Cosine with noise': y2,
+    'Adjusted Tangent': y3,
+    'Normal Distribution': y4,
+    'Gaussian Function': y5
 })
 
-# Aplicación en Streamlit
-st.title("Visualización de Variables Aleatorias")
+# Streamlit application
+st.title("Random Variable Visualization")
 
-st.write("Este dashboard muestra cinco variables aleatorias útiles para análisis y visualización.")
+st.write("This dashboard displays five randomly generated variables for analysis and visualization.")
 
-# Gráfico interactivo
+# Plot interactive graph
 fig, ax = plt.subplots()
-ax.plot(df['x'], df['Seno con ruido'], label="Seno con ruido")
-ax.plot(df['x'], df['Coseno con ruido'], label="Coseno con ruido")
-ax.plot(df['x'], df['Tangente ajustada'], label="Tangente ajustada")
-ax.plot(df['x'], df['Distribución Normal'], label="Distribución Normal")
-ax.plot(df['x'], df['Función Gaussiana'], label="Función Gaussiana")
+ax.plot(df['x'], df['Sine with noise'], label="Sine with noise")
+ax.plot(df['x'], df['Cosine with noise'], label="Cosine with noise")
+ax.plot(df['x'], df['Adjusted Tangent'], label="Adjusted Tangent")
+ax.plot(df['x'], df['Normal Distribution'], label="Normal Distribution")
+ax.plot(df['x'], df['Gaussian Function'], label="Gaussian Function")
 
 ax.set_xlabel("X")
-ax.set_ylabel("Valores")
-ax.set_title("Gráfica de variables aleatorias")
+ax.set_ylabel("Values")
+ax.set_title("Graph of Random Variables")
 ax.legend()
 
 st.pyplot(fig)
 
-# Mostrar los primeros datos en una tabla
-st.write("Vista previa de los datos generados:")
+# Display first few rows in a table
+st.write("Preview of Generated Data:")
 st.dataframe(df.head())
