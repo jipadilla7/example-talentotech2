@@ -78,3 +78,36 @@ sns.boxplot(x=df["Tipo de Cultivo"], y=df["Margen de Beneficio (USD)"], palette=
 plt.xticks(rotation=45)
 plt.title("Margen de Beneficio por Tipo de Cultivo")
 st.pyplot(fig)
+
+st.subheader("📈 Líneas de Tendencia para Variables Numéricas")
+
+# Seleccionar solo las columnas numéricas
+df_numeric = df.select_dtypes(include=[np.number])
+
+# Verificar si hay columnas numéricas
+if df_numeric.shape[1] > 1:
+    fig, ax = plt.subplots(figsize=(10, 6))
+    
+    # Iterar sobre cada columna numérica y trazar la línea de tendencia
+    colors = plt.cm.get_cmap('tab10', len(df_numeric.columns))  # Paleta de colores automática
+    for idx, col in enumerate(df_numeric.columns):
+        x = np.arange(len(df_numeric))  # Crear eje X basado en el índice de la DataFrame
+        y = df_numeric[col].values
+        
+        # Ajustar una recta de tendencia
+        slope, intercept = np.polyfit(x, y, 1)
+        trend_line = slope * x + intercept
+        
+        # Graficar la línea original y la línea de tendencia
+        ax.plot(x, y, label=col, linestyle='dotted', alpha=0.7, color=colors(idx))
+        ax.plot(x, trend_line, linestyle='solid', color=colors(idx), label=f"Tendencia {col}")
+
+    ax.set_title("Líneas de Tendencia para Variables Numéricas")
+    ax.set_xlabel("Índice de Muestra")
+    ax.set_ylabel("Valor")
+    ax.legend()
+    st.pyplot(fig)
+
+else:
+    st.warning("No hay suficientes columnas numéricas para graficar líneas de tendencia.")
+
