@@ -25,11 +25,16 @@ st.write(df.describe())
 st.subheader("❗ Valores nulos en el dataset")
 st.write(df.isnull().sum())
 
+# Filtrar solo las columnas numéricas
+df_numeric = df.select_dtypes(include=[np.number])
+
 # Matriz de correlación
 st.subheader("📈 Matriz de Correlación")
 fig, ax = plt.subplots(figsize=(10, 6))
-sns.heatmap(df.corr(), annot=True, cmap="coolwarm", fmt=".2f", linewidths=0.5, ax=ax)
+sns.heatmap(df_numeric.corr(), annot=True, cmap="coolwarm", fmt=".2f", linewidths=0.5, ax=ax)
 st.pyplot(fig)
+
+
 
 # Histograma de variables clave
 st.subheader("📊 Distribución de Variables")
