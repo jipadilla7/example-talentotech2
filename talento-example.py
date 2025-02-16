@@ -4,13 +4,6 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from scipy.stats import norm
 
-# Instrucciones para instalar los paquetes necesarios:
-# 1. Instalar Streamlit: pip install streamlit
-# 2. Instalar Numpy: pip install numpy
-# 3. Instalar Pandas: pip install pandas
-# 4. Instalar Matplotlib: pip install matplotlib
-# 5. Instalar Scipy: pip install scipy
-# Para ejecutar la aplicación en Streamlit: streamlit run data-talento.py
 
 # Generar datos aleatorios
 np.random.seed(42)
