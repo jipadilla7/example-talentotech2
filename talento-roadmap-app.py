@@ -38,6 +38,7 @@ if menu == "Datos":
     st.dataframe(data)
 
 # 5. Filtrar por Categoría
+filtered_data = data  # Asegurar que filtered_data esté definido en todo el script
 if menu == "Visualización":
     st.subheader("📊 Visualización de Datos")
     categoria = st.sidebar.selectbox("Selecciona una categoría", data["Categoría"].unique())
@@ -68,48 +69,26 @@ if menu == "Visualización":
         filtered_data = data
         st.experimental_rerun()
 
-    # 9. Gráfico de Ventas con Matplotlib
-    st.subheader("📈 Gráfica de Ventas")
-    fig, ax = plt.subplots()
-    ax.plot(filtered_data["Fecha"], filtered_data["Ventas"], marker="o", linestyle="-")
-    ax.set_xlabel("Fecha")
-    ax.set_ylabel("Ventas")
-    ax.set_title("Ventas a lo largo del tiempo")
-    st.pyplot(fig)
-
-    # 10. Gráfico de Distribución con Seaborn
-    st.subheader("📊 Distribución de Ventas por Categoría")
-    fig_seaborn, ax = plt.subplots(figsize=(8, 4))
-    sns.boxplot(data=filtered_data, x="Categoría", y="Ventas", palette="coolwarm", ax=ax)
-    st.pyplot(fig_seaborn)
-
-    # 11. Gráfico de Dispersión con Plotly
-    st.subheader("📌 Gráfico de dispersión")
-    fig_plotly = px.scatter(
-        filtered_data,
-        x="Ventas",
-        y="Descuento",
-        color="Región",
-        title="Relación entre Ventas y Descuento por Región",
-    )
-    st.plotly_chart(fig_plotly)
-
-# 12. Implementar Pestañas
-st.subheader("📌 Navegación entre Pestañas")
-tab1, tab2 = st.tabs(["📊 Gráficos", "📂 Datos"])
-with tab1:
-    st.subheader("Visualización de Datos")
-    if 'fig_plotly' in locals():
+    # 9. Implementar Pestañas
+    st.subheader("📌 Navegación entre Pestañas")
+    tab1, tab2 = st.tabs(["📊 Gráficos", "📂 Datos"])
+    with tab1:
+        st.subheader("Visualización de Datos")
+        fig_plotly = px.scatter(
+            filtered_data,
+            x="Ventas",
+            y="Descuento",
+            color="Región",
+            title="Relación entre Ventas y Descuento por Región",
+        )
         st.plotly_chart(fig_plotly)
-    else:
-        st.warning("No hay datos seleccionados para visualizar.")
-with tab2:
-    st.subheader("Datos Crudos")
-    st.dataframe(filtered_data)
+    with tab2:
+        st.subheader("Datos Crudos")
+        st.dataframe(filtered_data)
 
-# 13. Mensaje de Confirmación
+# 10. Mensaje de Confirmación
 st.sidebar.success("🎉 Configuración completa")
 
-# 14. Ejecución del Script
+# 11. Ejecución del Script
 if __name__ == "__main__":
     st.sidebar.info("Ejecuta este script con: streamlit run talento-roadmap-app.py")
