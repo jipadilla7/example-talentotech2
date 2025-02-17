@@ -99,7 +99,10 @@ st.subheader("📌 Navegación entre Pestañas")
 tab1, tab2 = st.tabs(["📊 Gráficos", "📂 Datos"])
 with tab1:
     st.subheader("Visualización de Datos")
-    st.plotly_chart(fig_plotly)
+    if 'fig_plotly' in locals():
+        st.plotly_chart(fig_plotly)
+    else:
+        st.warning("No hay datos seleccionados para visualizar.")
 with tab2:
     st.subheader("Datos Crudos")
     st.dataframe(filtered_data)
