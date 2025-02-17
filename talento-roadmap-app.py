@@ -79,63 +79,34 @@ if menu == "Visualización":
 
     # 10. Gráfico de Distribución con Seaborn
     st.subheader("📊 Distribución de Ventas por Categoría")
-    fig, ax = plt.subplots(figsize=(8, 4))
+    fig_seaborn, ax = plt.subplots(figsize=(8, 4))
     sns.boxplot(data=filtered_data, x="Categoría", y="Ventas", palette="coolwarm", ax=ax)
-    st.pyplot(fig)
+    st.pyplot(fig_seaborn)
 
     # 11. Gráfico de Dispersión con Plotly
     st.subheader("📌 Gráfico de dispersión")
-    fig = px.scatter(
+    fig_plotly = px.scatter(
         filtered_data,
         x="Ventas",
         y="Descuento",
         color="Región",
         title="Relación entre Ventas y Descuento por Región",
     )
-    st.plotly_chart(fig)
+    st.plotly_chart(fig_plotly)
 
-# 12. Barra de Progreso
-st.subheader("📈 Barra de Progreso de Carga")
-progress_bar = st.progress(0)
-for i in range(100):
-    progress_bar.progress(i + 1)
-st.success("¡Carga completa!")
-
-# 13. Botones de Notificación
-if st.button("Mostrar Notificación"):
-    st.success("✅ Operación exitosa")
-
-if st.button("Mostrar Advertencia"):
-    st.warning("⚠️ Este es un mensaje de advertencia")
-
-# 14. Personalización de Estilos
-st.markdown("""
-    <style>
-    .big-font {
-        font-size:24px !important;
-        color: #4CAF50;
-    }
-    .stButton>button {
-        background-color: #FF5733;
-        color: white;
-        border-radius: 10px;
-    }
-    </style>
-    """, unsafe_allow_html=True)
-
-# 15. Implementar Pestañas
+# 12. Implementar Pestañas
 st.subheader("📌 Navegación entre Pestañas")
 tab1, tab2 = st.tabs(["📊 Gráficos", "📂 Datos"])
 with tab1:
     st.subheader("Visualización de Datos")
-    st.plotly_chart(fig)
+    st.plotly_chart(fig_plotly)
 with tab2:
     st.subheader("Datos Crudos")
     st.dataframe(filtered_data)
 
-# 16. Mensaje de Confirmación
+# 13. Mensaje de Confirmación
 st.sidebar.success("🎉 Configuración completa")
 
-# 17. Ejecución del Script
+# 14. Ejecución del Script
 if __name__ == "__main__":
     st.sidebar.info("Ejecuta este script con: streamlit run talento-roadmap-app.py")
